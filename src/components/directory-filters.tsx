@@ -16,6 +16,10 @@ import type { CareerWithFaculty, Faculty } from "@/lib/types";
 
 const SEMESTERS = Array.from({ length: 10 }, (_, i) => i + 1);
 const ALL = "todos";
+const SEMESTER_ITEMS = [
+  { value: ALL, label: "Todos los semestres" },
+  ...SEMESTERS.map((value) => ({ value: String(value), label: `${value}° semestre` })),
+];
 
 export function DirectoryFilters({
   faculties,
@@ -39,6 +43,22 @@ export function DirectoryFilters({
     if (facultySlug === ALL) return careers;
     return careers.filter((career) => career.faculty?.slug === facultySlug);
   }, [careers, facultySlug]);
+
+  const facultyItems = useMemo(
+    () => [
+      { value: ALL, label: "Todas las facultades" },
+      ...faculties.map((faculty) => ({ value: faculty.slug, label: faculty.name })),
+    ],
+    [faculties],
+  );
+
+  const careerItems = useMemo(
+    () => [
+      { value: ALL, label: "Todas las carreras" },
+      ...careersForFaculty.map((career) => ({ value: career.id, label: career.name })),
+    ],
+    [careersForFaculty],
+  );
 
   function updateParams(next: Record<string, string | null>) {
     const params = new URLSearchParams(searchParams.toString());
@@ -105,6 +125,7 @@ export function DirectoryFilters({
 
         <div className="grid grid-cols-3 gap-2 sm:contents">
           <Select
+            items={facultyItems}
             value={facultySlug}
             onValueChange={(value) => updateParams({ facultad: value, carrera: ALL })}
           >
@@ -121,7 +142,11 @@ export function DirectoryFilters({
             </SelectContent>
           </Select>
 
-          <Select value={careerId} onValueChange={(value) => updateParams({ carrera: value })}>
+          <Select
+            items={careerItems}
+            value={careerId}
+            onValueChange={(value) => updateParams({ carrera: value })}
+          >
             <SelectTrigger aria-label="Filtrar por carrera" className="w-full">
               <SelectValue placeholder="Carrera" />
             </SelectTrigger>
@@ -135,7 +160,11 @@ export function DirectoryFilters({
             </SelectContent>
           </Select>
 
-          <Select value={semester} onValueChange={(value) => updateParams({ semestre: value })}>
+          <Select
+            items={SEMESTER_ITEMS}
+            value={semester}
+            onValueChange={(value) => updateParams({ semestre: value })}
+          >
             <SelectTrigger aria-label="Filtrar por semestre" className="w-full">
               <SelectValue placeholder="Semestre" />
             </SelectTrigger>
