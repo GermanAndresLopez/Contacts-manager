@@ -28,6 +28,7 @@ function parseLeaderForm(formData: FormData) {
     cedula: formData.get("cedula"),
     birth_date: formData.get("birth_date"),
     birth_place: formData.get("birth_place"),
+    phone: formData.get("phone"),
     semester: formData.get("semester"),
     career_id: formData.get("career_id"),
   });
@@ -71,6 +72,7 @@ export async function createLeader(
     age: calculateAge(data.birth_date),
     semester: data.semester,
     career_id: data.career_id,
+    phone: data.phone,
   });
 
   if (error) {
@@ -115,6 +117,7 @@ export async function updateLeader(
       age: calculateAge(data.birth_date),
       semester: data.semester,
       career_id: data.career_id,
+      phone: data.phone,
     })
     .eq("id", leaderId);
 

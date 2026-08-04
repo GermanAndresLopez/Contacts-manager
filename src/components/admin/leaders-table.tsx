@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { SemesterBadge } from "@/components/semester-badge";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { DeleteLeaderButton } from "@/components/admin/delete-leader-button";
+import { formatPhone, toWhatsAppLink } from "@/lib/whatsapp";
 import { fullName, type LeaderWithCareer } from "@/lib/types";
 
 export function LeadersTable({ leaders }: { leaders: LeaderWithCareer[] }) {
@@ -25,6 +27,7 @@ export function LeadersTable({ leaders }: { leaders: LeaderWithCareer[] }) {
             <TableHead>Facultad</TableHead>
             <TableHead>Semestre</TableHead>
             <TableHead>Edad</TableHead>
+            <TableHead>Celular</TableHead>
             <TableHead className="text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -39,6 +42,22 @@ export function LeadersTable({ leaders }: { leaders: LeaderWithCareer[] }) {
                 <SemesterBadge semester={leader.semester} />
               </TableCell>
               <TableCell className="tabular-nums">{leader.age}</TableCell>
+              <TableCell>
+                {leader.phone ? (
+                  <a
+                    href={toWhatsAppLink(leader.phone)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Escribir a ${fullName(leader)} por WhatsApp`}
+                    className="press-feedback inline-flex items-center gap-1.5 whitespace-nowrap text-[#0d8a4f] hover:underline dark:text-[#25D366]"
+                  >
+                    <WhatsAppIcon className="size-3.5" />
+                    {formatPhone(leader.phone)}
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
+              </TableCell>
               <TableCell>
                 <div className="flex items-center justify-end gap-1.5">
                   <Button

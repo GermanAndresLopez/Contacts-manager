@@ -133,7 +133,7 @@ export function LeaderForm({
                   <p className="text-sm text-muted-foreground">Edad: {previewAge} años</p>
                 ) : null}
               </div>
-              <div className="space-y-1.5 sm:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="birth_place">Lugar de nacimiento *</Label>
                 <Input
                   id="birth_place"
@@ -143,6 +143,20 @@ export function LeaderForm({
                   required
                 />
                 <FieldError message={errors.birth_place} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="phone">Celular (WhatsApp) *</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="numeric"
+                  placeholder="3001234567"
+                  defaultValue={leader?.phone ?? ""}
+                  aria-invalid={Boolean(errors.phone)}
+                  required
+                />
+                <FieldError message={errors.phone} />
               </div>
             </div>
           </section>

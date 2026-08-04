@@ -14,7 +14,7 @@ export function FacultyCard({
   leaderCount: number;
 }) {
   return (
-    <Link href={`/facultades/${slug}`} className="press-feedback block h-full">
+    <Link href={`/facultades?f=${slug}`} className="press-feedback block h-full">
       <Card className="h-full transition-shadow duration-200 hover:shadow-md">
         <CardContent className="flex h-full flex-col gap-4 p-5">
           <p className="font-heading text-lg font-semibold leading-snug">{name}</p>

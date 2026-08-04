@@ -1,18 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro, Atkinson_Hyperlegible } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const bodyFont = Atkinson_Hyperlegible({
+const appFont = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-const headingFont = Crimson_Pro({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -20,8 +14,7 @@ export const metadata: Metadata = {
     default: "UPC Líderes",
     template: "%s · UPC Líderes",
   },
-  description:
-    "Registro y directorio de líderes estudiantiles por facultad y carrera.",
+  description: "Directorio de líderes estudiantiles.",
 };
 
 export const viewport: Viewport = {
@@ -38,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}
+      className={`${appFont.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

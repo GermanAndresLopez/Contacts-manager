@@ -53,9 +53,13 @@ create table if not exists public.leaders (
   age int not null check (age >= 0 and age <= 120),
   semester int not null check (semester between 1 and 10),
   career_id uuid not null references public.careers(id) on delete restrict,
+  phone text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Por si ya habías creado la tabla antes de que existiera esta columna.
+alter table public.leaders add column if not exists phone text;
 
 create index if not exists leaders_career_id_idx on public.leaders (career_id);
 create index if not exists careers_faculty_id_idx on public.careers (faculty_id);
@@ -199,3 +203,52 @@ on conflict (faculty_id, slug) do nothing;
 update public.careers
 set accreditation_number = '021456'
 where slug = 'licenciatura-en-matematicas';
+
+-- ============================================================================
+-- Líderes de ejemplo (para que el directorio no arranque vacío).
+-- Bórralos cuando tengas datos reales: delete from public.leaders where
+-- cedula like '10658423%';
+-- ============================================================================
+
+insert into public.leaders
+  (first_name, middle_name, last_name, second_last_name, cedula, birth_date, birth_place, age, semester, career_id, phone)
+select 'Valentina', 'Sofía', 'Martínez', 'Pérez', '1065842301', date '2003-05-14', 'Valledupar - Cesar', 23, 3, id, '3001234567' from public.careers where slug = 'administracion-de-empresas'
+union all
+select 'Juan', 'David', 'Rodríguez', 'Gómez', '1065842302', date '2001-11-02', 'Valledupar - Cesar', 24, 5, id, '3012345678' from public.careers where slug = 'administracion-de-empresas-turisticas-y-hoteleras'
+union all
+select 'María', 'José', 'Ramírez', 'Torres', '1065842303', date '2004-02-20', 'Valledupar - Cesar', 22, 2, id, '3023456789' from public.careers where slug = 'comercio-internacional'
+union all
+select 'Andrés', 'Felipe', 'López', 'Cárdenas', '1065842304', date '2000-08-09', 'Bosconia - Cesar', 25, 7, id, '3034567890' from public.careers where slug = 'contaduria-publica'
+union all
+select 'Laura', 'Camila', 'Díaz', 'Ospina', '1065842305', date '2002-12-30', 'Valledupar - Cesar', 23, 4, id, '3045678901' from public.careers where slug = 'economia'
+union all
+select 'Sebastián', 'Andrés', 'Vega', 'Molina', '1065842306', date '2001-04-17', 'Aguachica - Cesar', 25, 6, id, '3056789012' from public.careers where slug = 'licenciatura-en-artes'
+union all
+select 'Isabella', 'Fernanda', 'Guerra', 'Castro', '1065842307', date '2005-09-05', 'Valledupar - Cesar', 20, 1, id, '3067890123' from public.careers where slug = 'musica'
+union all
+select 'Santiago', 'Rafael', 'Mendoza', 'Ríos', '1065842308', date '1999-06-25', 'Valledupar - Cesar', 27, 8, id, '3078901234' from public.careers where slug = 'derecho'
+union all
+select 'Camila', 'Andrea', 'Peralta', 'Julio', '1065842309', date '2003-01-12', 'La Paz - Cesar', 23, 3, id, '3089012345' from public.careers where slug = 'sociologia'
+union all
+select 'Diego', 'Alejandro', 'Solano', 'Brito', '1065842310', date '2002-03-28', 'Valledupar - Cesar', 24, 5, id, '3090123456' from public.careers where slug = 'psicologia'
+union all
+select 'Daniela', 'Patricia', 'Nieves', 'Arias', '1065842311', date '2000-07-19', 'Santa Marta - Magdalena', 26, 9, id, '3101234567' from public.careers where slug = 'microbiologia'
+union all
+select 'Kevin', 'Alexander', 'Daza', 'Uribe', '1065842312', date '2002-10-08', 'Codazzi - Cesar', 23, 4, id, '3112345678' from public.careers where slug = 'ingenieria-agroindustrial'
+union all
+select 'Paula', 'Andrea', 'Rincón', 'Salcedo', '1065842313', date '2001-05-23', 'Valledupar - Cesar', 25, 6, id, '3123456789' from public.careers where slug = 'ingenieria-ambiental-y-sanitaria'
+union all
+select 'Jhon', 'Fredy', 'Quintero', 'Barros', '1065842314', date '2004-08-30', 'Valledupar - Cesar', 21, 2, id, '3134567890' from public.careers where slug = 'ingenieria-de-sistemas'
+union all
+select 'Karen', 'Sofía', 'Villazón', 'Meza', '1065842315', date '2000-02-14', 'Barranquilla - Atlántico', 26, 7, id, '3145678901' from public.careers where slug = 'ingenieria-de-sistemas'
+union all
+select 'Luis', 'Fernando', 'Iguarán', 'Epieyú', '1065842316', date '2001-12-01', 'Riohacha - La Guajira', 24, 5, id, '3156789012' from public.careers where slug = 'ingenieria-electronica'
+union all
+select 'Adriana', 'Lucía', 'Barros', 'Fontalvo', '1065842317', date '2003-06-06', 'Valledupar - Cesar', 23, 3, id, '3167890123' from public.careers where slug = 'enfermeria'
+union all
+select 'Miguel', 'Ángel', 'Choles', 'Pushaina', '1065842318', date '1999-10-22', 'Valledupar - Cesar', 26, 8, id, '3178901234' from public.careers where slug = 'instrumentacion-quirurgica'
+union all
+select 'Natalia', 'Andrea', 'Orozco', 'Beltrán', '1065842319', date '2005-03-15', 'Valledupar - Cesar', 21, 1, id, '3189012345' from public.careers where slug = 'fisioterapia'
+union all
+select 'Carlos', 'Andrés', 'Movil', 'Redondo', '1065842320', date '1998-11-11', 'Valledupar - Cesar', 27, 10, id, '3190123456' from public.careers where slug = 'licenciatura-en-matematicas'
+on conflict (cedula) do nothing;

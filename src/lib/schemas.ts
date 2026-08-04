@@ -17,6 +17,11 @@ export const LeaderSchema = z.object({
       message: "Fecha de nacimiento inválida.",
     }),
   birth_place: z.string().trim().min(1, "El lugar de nacimiento es obligatorio."),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Ingresa un número de celular válido.")
+    .regex(/^[0-9]+$/, "El celular solo debe contener números."),
   semester: z.coerce
     .number()
     .int()
